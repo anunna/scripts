@@ -1,1 +1,1 @@
-# scripts
+# Gentoo scripts
