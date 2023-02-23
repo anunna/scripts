@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#This script allows you to control the volume of the keyboard in windows managers with pamixer
+#It also allows you to mute and unmute the default microphone with notification
+
+#Check if pamixer is installed
+command -v pamixer >/dev/null 2>&1 || { echo >&2 "I require pamixer but it's not installed.  Aborting."; exit 1; }
+
+#Mapping keys to commands
+function keyboard {
+    case $1 in
+        "+")
+            pamixer --increase 5
+            ;;
+        "-")
+            pamixer --decrease 5
+            ;;
+        "mute")
+            pamixer -m
+            notify-send "Microphone muted"
+            ;;
+        "unmute")
+            pamixer -u
+            notify-send "Microphone unmuted"
+            ;;
+        *)
+            echo "Key not recognized"
+            ;;
+    esac
+}
+
+#Main loop
+while true; do
+    read -rsn1 key
+    keyboard $key
+done
